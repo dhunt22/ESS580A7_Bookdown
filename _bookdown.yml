@@ -1,0 +1,10 @@
+book_filename: "580A7 Bookdown"
+chapter_name: "Chapter "
+repo: https://github.com/dhunt22/ESS580A7_Bookdown
+output_dir: docs
+rmd_files: ["index.Rmd", "01-Rmarkdown-Examples.Rmd", "02-Hayman-Fire-Recovery.Rmd",
+            "03-Snow-Studies-Data.Rmd", "04-01-Spatial-Analysis.Rmd", "04-02-Lake-WQ-Analysis.Rmd",
+            "05-Weather-Corn-Regressions.Rmd"]
+clean: [packages.bib, bookdown.bbl]
+cache: TRUE
+delete_merged_file: TRUE

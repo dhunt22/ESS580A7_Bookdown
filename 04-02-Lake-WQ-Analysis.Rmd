@@ -1,0 +1,193 @@
+```{r 04-02-setup, include=FALSE}
+library(tidyverse) # Tidy packages
+library(sf) #Spatial package that can read and create shapefiles 
+library(mapview) #Interactive maps
+library(LAGOSNE) #Lots and lots of clean lake data
+library(USAboundaries) #USA states and counties
+library(lubridate) #For dealing with date and time
+```
+
+
+# Lake Water Quality Analysis
+
+
+## Loading in data
+
+
+### First download and then specifically grab the locus (or site lat longs)
+```{r 04-02-data-read, warning = FALSE, message = FALSE}
+#Lagos download script
+#lagosne_get(dest_folder = LAGOSNE:::lagos_path(),overwrite=T)
+
+#Load in lagos
+lagos <- lagosne_load()
+
+
+#Grab the lake centroid info
+lake_centers <- lagos$locus
+
+# Make an sf object 
+spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+
+#Grab the water quality data
+nutr <- lagos$epi_nutr
+
+#Look at column names
+#names(nutr)
+```
+
+### Subset columns nutr to only keep key info that we want
+
+
+```{r, warning = FALSE, message = FALSE}
+clarity_only <- nutr %>%
+  select(lagoslakeid,sampledate,chla,doc,secchi) %>%
+  mutate(sampledate = as.character(sampledate) %>% ymd(.))
+
+```
+
+
+### Keep sites with at least 200 observations 
+
+```{r warning = FALSE, message = FALSE}
+
+#Look at the number of rows of dataset
+#nrow(clarity_only)
+
+chla_secchi <- clarity_only %>%
+  filter(!is.na(chla),
+         !is.na(secchi))
+
+# How many observations did we lose?
+# nrow(clarity_only) - nrow(chla_secchi)
+
+
+# Keep only the lakes with at least 200 observations of secchi and chla
+chla_secchi_200 <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  mutate(count = n()) %>%
+  filter(count > 200)
+
+
+```
+
+
+### Join water quality data to spatial data
+
+```{r warning = FALSE, message = FALSE}
+spatial_200 <- inner_join(spatial_lakes,chla_secchi_200 %>%
+                            distinct(lagoslakeid,.keep_all=T),
+                          by='lagoslakeid')
+
+
+```
+
+### Mean Chl_a map
+
+```{r warning = FALSE, message = FALSE}
+### Take the mean chl_a and secchi by lake
+
+mean_values_200 <- chla_secchi_200 %>%
+  # Take summary by lake id
+  group_by(lagoslakeid) %>%
+  # take mean chl_a per lake id
+  summarize(mean_chl = mean(chla,na.rm=T),
+            mean_secchi=mean(secchi,na.rm=T)) %>%
+  #Get rid of NAs
+  filter(!is.na(mean_chl),
+         !is.na(mean_secchi)) %>%
+  # Take the log base 10 of the mean_chl
+  mutate(log10_mean_chl = log10(mean_chl))
+
+#Join datasets
+mean_spatial <- inner_join(spatial_lakes,mean_values_200,
+                          by='lagoslakeid') 
+
+#Make a map
+mapview(mean_spatial,zcol='log10_mean_chl')
+```
+
+
+## Class work
+
+## 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for sites with at least 200 observations?
+
+- Here, I just want a plot of chla vs secchi for all sites 
+
+```{r warning = FALSE, message = FALSE}
+#Your code here
+ggplot(chla_secchi_200, aes(x = chla, y = secchi)) + 
+  geom_point() + scale_x_log10() + labs(title = "Correlation between Chlorophyll a and Depth to Secchi plate")
+
+
+```
+
+
+## Why might this be the case? 
+
+The correlation is slight negative correlation between CHLa and Secchi for the sites. At high levels of Chlorophyll a in the waterm the Secchi value increases. Therefore, as CHLa (chlorophyll plant presence) increases, the depth at which a Secchi Disk disappears out of view at a more shallow depth. This makes sense, as Chlorophyll will absorb more sunlight and wavelengths of the light spectrum.
+
+
+## 2) What states have the most data? 
+
+### 2a) First you will need to make a lagos spatial dataset that has the total number of counts per site.
+
+```{r warning = FALSE, message = FALSE}
+## Your code here
+# 
+site_counts <- clarity_only %>% 
+  group_by(lagoslakeid) %>%
+  summarize(count = n())
+# Had to summarize, using mutate caused 3 repeats of each site type
+
+# Inner join to match sites
+site_sf_counts <- inner_join(spatial_lakes, site_counts, by='lagoslakeid')
+
+```
+
+
+### 2b) Second, you will need to join this point dataset to the us_boundaries 
+data. 
+
+```{r warning = FALSE, message = FALSE}
+## Your code here
+states <- us_states()
+
+# Spatial Join, keeping only United States sites
+sites_us <- st_join(states, site_sf_counts) %>% 
+  na.omit()
+```
+
+
+### 2c) Then you will want to group by state and sum all the observations in that
+state and arrange that data from most to least total observations per state. 
+
+```{r warning = FALSE, message = FALSE}
+## Your code here.
+
+# Grouping by state using group
+state_totals <- sites_us %>% 
+  group_by(state_name) %>%
+  summarize(state_count = sum(count))
+
+# Using order in descending order '-'
+state_sorted <- state_totals[order(-state_totals$state_count),]
+
+```
+
+## 3) Is there a spatial pattern in Secchi disk depth for lakes with at least 200 
+observations?
+
+```{r warning = FALSE, message = FALSE}
+## Your code here
+
+# Mapview of sites in which the Secchi observation count is > 200
+mapview(spatial_200, zcol = "secchi", alpha = 0.8)
+
+```
+
+There is a spatial pattern between the lakes with over 200 Secchi observations. 
+We can see that more Northern lakes have, on average, a greater Secchi depth value.
+Furthermore, the Northeast contains lakes with the highest overall Secchi values.
+

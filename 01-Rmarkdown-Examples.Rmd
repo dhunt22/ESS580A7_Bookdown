@@ -1,0 +1,133 @@
+```{r 01-setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dataRetrieval)
+library(dygraphs)
+library(xts)
+```
+
+# Discharge Data Example
+
+The Poudre River at Lincoln Bridge is:
+
+  - Downstream of only a little bit of urban storm water
+
+  - Near Odell Brewing CO
+  
+  - Near an open space area and the Poudre River Trail
+  
+  - **Downstream of many agricultural diversions**
+
+
+## Site Description
+
+![](https://waterdata.usgs.gov/nwisweb/local/state/co/text/pics/06752260big.jpg)
+
+
+## Data Acquisition and Plotting tests
+
+## Data Download
+
+
+```{r 02-downloader}
+
+q <- readNWISdv(siteNumbers = '06752260',
+                parameterCd = '00060',
+                startDate = '2017-01-01',
+                endDate = '2022-01-01') %>%
+  rename(q = 'X_00060_00003')
+
+```
+
+
+
+## Static Data Plotter
+
+
+```{r, warning = FALSE, fig.width = 8, fig.height = 5}
+
+ggplot(q, aes(x = Date, y = q)) + 
+  geom_line() + 
+  ylab('Q (cfs)') + 
+  ggtitle('Discharge in the Poudre River, Fort Collins')
+
+```
+
+
+## Interactive Data Plotter
+
+
+```{r}
+
+q_xts <- xts(q$q, order.by = q$Date)
+
+
+dygraph(q_xts) %>%
+  dyAxis("y", label = "Discharge (cfs)")
+
+```
+
+
+
+## Assignment     
+
+
+This assignment will be primarily about demonstrating some expertice in using
+RMarkdown, since we will be using Rmds as the primary form of homework and 
+assignments. With that in mind, your assignment for this homework is to:
+
+
+1) Fork the example repository into your personal GitHub
+
+2) Create an RStudio project from your Personal clone of the Repo. 
+
+3) Create a table of contents that is floating, but displays three levels of
+headers instead of two (by editing the content at the beginning of the document)
+
+4) Make a version of the `dygraph` with points and lines by using rstudio's
+dygraph [guide](https://rstudio.github.io/dygraphs/)
+
+5) Writing a paragraph on the Poudre river with at least three hyperlinks,
+**two bolded sections**, and one *italicized phrase*. The content of this paragraph
+is not vital, but try to at least make it true and interesting, and, of course,
+don't plagiarize. 
+
+6) Knit that document, and then git commit and push to your personal GitHub.
+
+7) Use the GitHub -> Settings -> Pages tab to create a website of your report.
+
+8) Bonus, make the timestamp in the header dynamic. As in it only adds
+todays date, not just a static date you enter. 
+
+9) Bonus, create an "index_talk.Rmd" version of your document using the
+`revealjs` package. Add link to your original report-style document. 
+
+
+
+
+## DyGraph example. 
+
+```{r}
+
+q_xts <- xts(q$q, order.by = q$Date)
+
+
+dygraph(q_xts, main = "Discharge of the Cache La Poudre River At Fort Collins, CO") %>%
+  dyAxis("y", label = "Discharge (cfs)") %>%
+  dyOptions(drawPoints = TRUE, pointSize = 2)
+
+
+```
+
+## Poudre Paragraph
+
+The Cache La Poudre River, first settled against in the 1870's, provided water for mining, logging, and agriculture. Original settlements, such as *Old Poudre City*, began working on a railroad system along the central river. This project, however, **failed**, as there was a lack of support by the federal government. **Highway 14 was created from the proposed railroad track.** In the present and future, the Cache La Poudre River will continue to be a vital source of water to the South Platte River and agricultural operations around Fort Collins.
+
+Sources: 
+
+[Rivers.gov Description](https://www.rivers.gov/rivers/cache-la-poudre.php#:~:text=Historical%20accounts%20trace%20the%20name,railroad%20building%20in%20northern%20Colorado.)
+
+[The Historical Marker Database](https://www.hmdb.org/m.asp?m=89987)
+
+[A Better Future for the Poudre River](https://westernresourceadvocates.org/publications/a-better-future-for-the-poudre-river/)

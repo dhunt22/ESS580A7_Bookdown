@@ -1,0 +1,170 @@
+```{r 04-01-setup, include=FALSE}
+library(tidyverse) # Tidy packages
+library(sf) #Spatial package that can read and create shapefiles 
+library(mapview) #Interactive maps
+library(LAGOSNE) #Lots and lots of clean lake data
+library(USAboundaries) #USA states and counties
+```
+
+
+# LAGOS Spatial Analysis
+
+
+## Loading in data
+
+
+### First download and then specifically grab the locus (or site lat longs)
+
+```{r data-read}
+# #Lagos download script
+# LAGOSNE::lagosne_get(dest_folder = LAGOSNE:::lagos_path())
+
+
+#Load in lagos
+lagos <- lagosne_load()
+
+#Grab the lake centroid info
+lake_centers <- lagos$locus
+
+
+# load('lake_centers.Rdata')
+
+
+```
+
+
+
+### Convert to spatial data
+```{r warning = FALSE, message = FALSE}
+#Look at the column names
+#names(lake_centers)
+
+#Look at the structure
+#str(lake_centers)
+
+#View the full dataset
+#View(lake_centers %>% slice(1:100))
+
+spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
+                          crs=4326) %>%
+  st_transform(2163)
+
+#Subset for plotting
+subset_spatial <- spatial_lakes %>%
+  slice(1:100) 
+
+subset_baser <- spatial_lakes[1:100,]
+
+#Dynamic mapviewer
+mapview(subset_spatial)
+
+```
+
+
+### Subset to only Minnesota
+
+```{r warning = FALSE, message = FALSE}
+states <- us_states()
+
+#Plot all the states to check if they loaded
+#mapview(states)
+minnesota <- states %>%
+  filter(name == 'Minnesota') %>%
+  st_transform(2163)
+
+#Subset lakes based on spatial position, mutate state name
+minnesota_lakes <- spatial_lakes[minnesota,] %>% 
+  mutate(name = "Minnesota")
+
+#Plotting the first 1000 lakes
+minnesota_lakes %>%
+  arrange(-lake_area_ha) %>%
+    slice(1:1000) %>%
+  mapview(.,zcol = 'lake_area_ha')
+```
+
+
+
+## In-Class work
+
+
+## 1) Show a map outline of Iowa and Illinois (similar to Minnesota map upstream)
+
+```{r warning = FALSE, message = FALSE}
+# Grab both Iowa and Illinois state codes
+iowa_illinois <- states %>% 
+  filter(name %in% c("Iowa","Illinois")) %>% 
+  st_transform(2163)
+
+# Isolate lakes from Iowa and Illinois
+iowa_illinois_lakes <- spatial_lakes[iowa_illinois,]
+  
+# Display the Outline
+mapview(iowa_illinois, col.regions = "chartreuse4")
+
+```
+
+
+
+## 2) Subset LAGOS data to these sites, how many sites are in Illinois and Iowa combined? How does this compare to Minnesota?
+
+```{r warning = FALSE, message = FALSE}
+# Give an output statement on the sites in Iowa + Illinois vs. Minnesota
+print(paste("There are", nrow(iowa_illinois_lakes), "lakes in Iowa and Illinois, and", nrow(minnesota_lakes), "lakes in Minnesota."))
+
+```
+
+
+## 3) What is the distribution of lake size in Iowa vs. Minnesota?
+
+- Here I want to see a histogram plot with lake size on x-axis and frequency on 
+y axis (check out geom_histogram)
+
+```{r warning = FALSE, message = FALSE}
+# Isolate Iowa lakes and mutate state name
+iowa <- iowa_illinois %>% filter(name == "Iowa")
+iowa_lakes <- spatial_lakes[iowa,] %>% 
+  mutate(name = "Iowa")
+
+iowa_minnesota_lakes <- rbind(iowa_lakes, minnesota_lakes)
+
+p1 <- ggplot(iowa_lakes, aes(lake_area_ha)) +
+  geom_histogram(position = "dodge", color = "darkblue", fill = "dodgerblue4", binwidth = 0.04) +
+  theme(axis.title.x = element_blank()) + scale_x_log10() +
+  labs(title = "Distibution of Iowa lakes", y = "Count")
+
+p2 <- ggplot(minnesota_lakes, aes(lake_area_ha), ) +
+  geom_histogram(position = "dodge", color = "darkblue", fill = "dodgerblue4", binwidth = 0.06) +
+  theme() + scale_x_log10() +
+  labs(title = "Distibution of Minnesota lakes", y = "Count", x = "Lake Area (Hectares)")
+
+grid::grid.draw(rbind(ggplotGrob(p1), ggplotGrob(p2)))
+
+## ^First solution before Matt told me to facet wrap.
+
+# Facet wrap graph by state name.
+p3 <- ggplot(iowa_minnesota_lakes, aes(x = lake_area_ha)) + 
+  geom_histogram(position = "dodge", color = "darkblue", fill = "dodgerblue4", binwidth = 0.04) + 
+  scale_x_log10() + 
+  labs(title = "Distibution of Minnesota and Iowa lakes", y = "Count", x = "Lake Area (Hectares)") + 
+  facet_wrap(~name, ncol = 1)
+p3
+
+```
+
+
+## 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares
+
+```{r warning = FALSE, message = FALSE}
+
+# Interactive map of Iowa and Illinois
+iowa_illinois_lakes %>% 
+  arrange(-lake_area_ha) %>% 
+  mapview(., zcol = 'lake_area_ha', alpha = 0.05, cex = 2.0)
+
+```
+
+
+## 5) What other data sources might we use to understand how reservoirs and natural lakes vary in size in these three states? 
+
+We may use the USGS water body databases, and stream flow data to see where water is travelling and being collected. Each state has data available. Additionally, we can use the NHD Watershed tool to see basin collections. A larger basin will likely host larger bodies of water, and the opposite for small basins.

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>ESS 580A7 Introduction to Environmental Data Science Project Compilation</title>
+  <meta name="description" content="A compilation of modules applying various packages and skills in R." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="ESS 580A7 Introduction to Environmental Data Science Project Compilation" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A compilation of modules applying various packages and skills in R." />
+  <meta name="github-repo" content="dhunt22/ESS580A7_Bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ESS 580A7 Introduction to Environmental Data Science Project Compilation" />
+  
+  <meta name="twitter:description" content="A compilation of modules applying various packages and skills in R." />
+  
+
+<meta name="author" content="Devin Hunt" />
+
+
+<meta name="date" content="2022-03-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="discharge-data-example.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.0/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.1.0/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">ESS 580A7 Introduction to Environmental Data Science Project Compilation</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#preface">Preface<span></span></a></li>
+<li class="chapter" data-level="1" data-path="discharge-data-example.html"><a href="discharge-data-example.html"><i class="fa fa-check"></i><b>1</b> Discharge Data Example<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="discharge-data-example.html"><a href="discharge-data-example.html#site-description"><i class="fa fa-check"></i><b>1.1</b> Site Description<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="discharge-data-example.html"><a href="discharge-data-example.html#data-acquisition-and-plotting-tests"><i class="fa fa-check"></i><b>1.2</b> Data Acquisition and Plotting tests<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="discharge-data-example.html"><a href="discharge-data-example.html#data-download"><i class="fa fa-check"></i><b>1.3</b> Data Download<span></span></a></li>
+<li class="chapter" data-level="1.4" data-path="discharge-data-example.html"><a href="discharge-data-example.html#static-data-plotter"><i class="fa fa-check"></i><b>1.4</b> Static Data Plotter<span></span></a></li>
+<li class="chapter" data-level="1.5" data-path="discharge-data-example.html"><a href="discharge-data-example.html#interactive-data-plotter"><i class="fa fa-check"></i><b>1.5</b> Interactive Data Plotter<span></span></a></li>
+<li class="chapter" data-level="1.6" data-path="discharge-data-example.html"><a href="discharge-data-example.html#assignment"><i class="fa fa-check"></i><b>1.6</b> Assignment<span></span></a></li>
+<li class="chapter" data-level="1.7" data-path="discharge-data-example.html"><a href="discharge-data-example.html#dygraph-example."><i class="fa fa-check"></i><b>1.7</b> DyGraph example.<span></span></a></li>
+<li class="chapter" data-level="1.8" data-path="discharge-data-example.html"><a href="discharge-data-example.html#poudre-paragraph"><i class="fa fa-check"></i><b>1.8</b> Poudre Paragraph<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html"><i class="fa fa-check"></i><b>2</b> Hayman Fire Recovery<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html#question-1"><i class="fa fa-check"></i><b>2.1</b> Question 1)<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html#question-2"><i class="fa fa-check"></i><b>2.2</b> Question 2<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html#q3"><i class="fa fa-check"></i><b>2.3</b> Q3<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html#question-4"><i class="fa fa-check"></i><b>2.4</b> Question 4<span></span></a></li>
+<li class="chapter" data-level="2.5" data-path="hayman-fire-recovery.html"><a href="hayman-fire-recovery.html#question-5"><i class="fa fa-check"></i><b>2.5</b> Question 5)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html"><i class="fa fa-check"></i><b>3</b> Snow Data Assignment: Web Scraping, Functions, and Iteration<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#reading-an-html"><i class="fa fa-check"></i><b>3.1</b> Reading an html<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#extract-csv-links-from-webpage"><i class="fa fa-check"></i><b>3.1.1</b> Extract CSV links from webpage<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#data-download-1"><i class="fa fa-check"></i><b>3.2</b> Data Download<span></span></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#download-data-in-a-for-loop"><i class="fa fa-check"></i><b>3.2.1</b> Download data in a for loop<span></span></a></li>
+<li class="chapter" data-level="3.2.2" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#download-data-in-a-map"><i class="fa fa-check"></i><b>3.2.2</b> Download data in a map<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#data-read-in"><i class="fa fa-check"></i><b>3.3</b> Data read-in<span></span></a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#read-in-just-the-snow-data-as-a-loop"><i class="fa fa-check"></i><b>3.3.1</b> Read in just the snow data as a loop<span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#read-in-the-data-as-a-map-function"><i class="fa fa-check"></i><b>3.3.2</b> Read in the data as a map function<span></span></a></li>
+<li class="chapter" data-level="3.3.3" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#plot-snow-data"><i class="fa fa-check"></i><b>3.3.3</b> Plot snow data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="snow-data-assignment-web-scraping-functions-and-iteration.html"><a href="snow-data-assignment-web-scraping-functions-and-iteration.html#assignment-1"><i class="fa fa-check"></i><b>3.4</b> Assignment:<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html"><i class="fa fa-check"></i><b>4</b> LAGOS Spatial Analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#loading-in-data"><i class="fa fa-check"></i><b>4.1</b> Loading in data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#first-download-and-then-specifically-grab-the-locus-or-site-lat-longs"><i class="fa fa-check"></i><b>4.1.1</b> First download and then specifically grab the locus (or site lat longs)<span></span></a></li>
+<li class="chapter" data-level="4.1.2" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#convert-to-spatial-data"><i class="fa fa-check"></i><b>4.1.2</b> Convert to spatial data<span></span></a></li>
+<li class="chapter" data-level="4.1.3" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#subset-to-only-minnesota"><i class="fa fa-check"></i><b>4.1.3</b> Subset to only Minnesota<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#in-class-work"><i class="fa fa-check"></i><b>4.2</b> In-Class work<span></span></a></li>
+<li class="chapter" data-level="4.3" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#show-a-map-outline-of-iowa-and-illinois-similar-to-minnesota-map-upstream"><i class="fa fa-check"></i><b>4.3</b> 1) Show a map outline of Iowa and Illinois (similar to Minnesota map upstream)<span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#subset-lagos-data-to-these-sites-how-many-sites-are-in-illinois-and-iowa-combined-how-does-this-compare-to-minnesota"><i class="fa fa-check"></i><b>4.4</b> 2) Subset LAGOS data to these sites, how many sites are in Illinois and Iowa combined? How does this compare to Minnesota?<span></span></a></li>
+<li class="chapter" data-level="4.5" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#what-is-the-distribution-of-lake-size-in-iowa-vs.-minnesota"><i class="fa fa-check"></i><b>4.5</b> 3) What is the distribution of lake size in Iowa vs. Minnesota?<span></span></a></li>
+<li class="chapter" data-level="4.6" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#make-an-interactive-plot-of-lakes-in-iowa-and-illinois-and-color-them-by-lake-area-in-hectares"><i class="fa fa-check"></i><b>4.6</b> 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares<span></span></a></li>
+<li class="chapter" data-level="4.7" data-path="lagos-spatial-analysis.html"><a href="lagos-spatial-analysis.html#what-other-data-sources-might-we-use-to-understand-how-reservoirs-and-natural-lakes-vary-in-size-in-these-three-states"><i class="fa fa-check"></i><b>4.7</b> 5) What other data sources might we use to understand how reservoirs and natural lakes vary in size in these three states?<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html"><i class="fa fa-check"></i><b>5</b> Lake Water Quality Analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#loading-in-data-1"><i class="fa fa-check"></i><b>5.1</b> Loading in data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#first-download-and-then-specifically-grab-the-locus-or-site-lat-longs-1"><i class="fa fa-check"></i><b>5.1.1</b> First download and then specifically grab the locus (or site lat longs)<span></span></a></li>
+<li class="chapter" data-level="5.1.2" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#subset-columns-nutr-to-only-keep-key-info-that-we-want"><i class="fa fa-check"></i><b>5.1.2</b> Subset columns nutr to only keep key info that we want<span></span></a></li>
+<li class="chapter" data-level="5.1.3" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#keep-sites-with-at-least-200-observations"><i class="fa fa-check"></i><b>5.1.3</b> Keep sites with at least 200 observations<span></span></a></li>
+<li class="chapter" data-level="5.1.4" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#join-water-quality-data-to-spatial-data"><i class="fa fa-check"></i><b>5.1.4</b> Join water quality data to spatial data<span></span></a></li>
+<li class="chapter" data-level="5.1.5" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#mean-chl_a-map"><i class="fa fa-check"></i><b>5.1.5</b> Mean Chl_a map<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#class-work"><i class="fa fa-check"></i><b>5.2</b> Class work<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#what-is-the-correlation-between-secchi-disk-depth-and-chlorophyll-a-for-sites-with-at-least-200-observations"><i class="fa fa-check"></i><b>5.3</b> 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for sites with at least 200 observations?<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#why-might-this-be-the-case"><i class="fa fa-check"></i><b>5.4</b> Why might this be the case?<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#what-states-have-the-most-data"><i class="fa fa-check"></i><b>5.5</b> 2) What states have the most data?<span></span></a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#a-first-you-will-need-to-make-a-lagos-spatial-dataset-that-has-the-total-number-of-counts-per-site."><i class="fa fa-check"></i><b>5.5.1</b> 2a) First you will need to make a lagos spatial dataset that has the total number of counts per site.<span></span></a></li>
+<li class="chapter" data-level="5.5.2" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#b-second-you-will-need-to-join-this-point-dataset-to-the-us_boundaries"><i class="fa fa-check"></i><b>5.5.2</b> 2b) Second, you will need to join this point dataset to the us_boundaries<span></span></a></li>
+<li class="chapter" data-level="5.5.3" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#c-then-you-will-want-to-group-by-state-and-sum-all-the-observations-in-that"><i class="fa fa-check"></i><b>5.5.3</b> 2c) Then you will want to group by state and sum all the observations in that<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="lake-water-quality-analysis.html"><a href="lake-water-quality-analysis.html#is-there-a-spatial-pattern-in-secchi-disk-depth-for-lakes-with-at-least-200"><i class="fa fa-check"></i><b>5.6</b> 3) Is there a spatial pattern in Secchi disk depth for lakes with at least 200<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html"><i class="fa fa-check"></i><b>6</b> Weather and Corn Yield Regressions<span></span></a>
+<ul>
+<li class="chapter" data-level="6.0.1" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#load-the-prism-daily-maximum-temperatures"><i class="fa fa-check"></i><b>6.0.1</b> Load the PRISM daily maximum temperatures<span></span></a></li>
+<li class="chapter" data-level="6.1" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#temperature-trends"><i class="fa fa-check"></i><b>6.1</b> Temperature trends<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#summer-temperature-trends-winneshiek-county"><i class="fa fa-check"></i><b>6.1.1</b> Summer temperature trends: Winneshiek County<span></span></a></li>
+<li class="chapter" data-level="6.1.2" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#winter-temperatures---winneshiek-county"><i class="fa fa-check"></i><b>6.1.2</b> Winter Temperatures - Winneshiek County<span></span></a></li>
+<li class="chapter" data-level="6.1.3" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#multiple-regression-quadratic-time-trend"><i class="fa fa-check"></i><b>6.1.3</b> Multiple regression – Quadratic time trend<span></span></a></li>
+<li class="chapter" data-level="6.1.4" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#download-nass-corn-yield-data"><i class="fa fa-check"></i><b>6.1.4</b> Download NASS corn yield data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#assignment-2"><i class="fa fa-check"></i><b>6.2</b> Assignment<span></span></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-1a-extract-winneshiek-county-corn-yields-fit-a-linear-time-trend-make-a-plot.-is-there-a-significant-time-trend"><i class="fa fa-check"></i><b>6.2.1</b> Question 1a: Extract Winneshiek County corn yields, fit a linear time trend, make a plot. Is there a significant time trend?<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-1b-fit-a-quadratic-time-trend-i.e.-year-year2-and-make-a-plot.-is-there-evidence-for-slowing-yield-growth"><i class="fa fa-check"></i><b>6.2.2</b> Question 1b: Fit a quadratic time trend (i.e., year + year^2) and make a plot. Is there evidence for slowing yield growth?<span></span></a></li>
+<li class="chapter" data-level="6.2.3" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-2-time-series-lets-analyze-the-relationship-between-temperature-and-yields-for-the-winneshiek-county-time-series.-use-data-on-yield-and-summer-avg-tmax.-is-adding-year-or-tmax2-to-your-model-helpful-make-a-plot-and-interpret-the-results."><i class="fa fa-check"></i><b>6.2.3</b> Question 2 – Time Series: Let’s analyze the relationship between temperature and yields for the Winneshiek County time series. Use data on yield and summer avg Tmax. Is adding year or Tmax^2 to your model helpful? Make a plot and interpret the results.<span></span></a></li>
+<li class="chapter" data-level="6.2.4" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-3-cross-section-analyze-the-relationship-between-temperature-and-yield-across-all-counties-in-2018.-is-there-a-relationship-interpret-the-results."><i class="fa fa-check"></i><b>6.2.4</b> Question 3 – Cross-Section: Analyze the relationship between temperature and yield across all counties in 2018. Is there a relationship? Interpret the results.<span></span></a></li>
+<li class="chapter" data-level="6.2.5" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-4-panel-one-way-to-leverage-multiple-time-series-is-to-group-all-data-into-what-is-called-a-panel-regression.-convert-the-county-id-code-countyfp-or-county_ansi-into-factor-using-as.factor-then-include-this-variable-in-a-regression-using-all-counties-yield-and-summer-temperature-data.-how-does-the-significance-of-your-temperature-coefficients-tmax-tmax2-change-make-a-plot-comparing-actual-and-fitted-yields-and-interpret-the-results-of-your-model."><i class="fa fa-check"></i><b>6.2.5</b> Question 4 – Panel: One way to leverage multiple time series is to group all data into what is called a “panel” regression. Convert the county ID code (“countyfp” or “county_ansi”) into factor using as.factor, then include this variable in a regression using all counties’ yield and summer temperature data. How does the significance of your temperature coefficients (Tmax, Tmax^2) change? Make a plot comparing actual and fitted yields and interpret the results of your model.<span></span></a></li>
+<li class="chapter" data-level="6.2.6" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#question-5-soybeans-download-nass-data-on-soybean-yields-and-explore-either-a-time-series-relationship-for-a-given-county-the-cross-sectional-relationship-for-a-given-year-or-a-panel-across-all-counties-and-years."><i class="fa fa-check"></i><b>6.2.6</b> Question 5 – Soybeans: Download NASS data on soybean yields and explore either a time series relationship for a given county, the cross-sectional relationship for a given year, or a panel across all counties and years.<span></span></a></li>
+<li class="chapter" data-level="6.2.7" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#bonus-find-a-package-to-make-a-county-map-of-iowa-displaying-some-sort-of-information-about-yields-or-weather.-interpret-your-map."><i class="fa fa-check"></i><b>6.2.7</b> Bonus: Find a package to make a county map of Iowa displaying some sort of information about yields or weather. Interpret your map.<span></span></a></li>
+<li class="chapter" data-level="6.2.8" data-path="weather-and-corn-yield-regressions.html"><a href="weather-and-corn-yield-regressions.html#bonus-2-challenge-question---map-trends-in-corn-yields-by-county-across-iowa.-interpret-your-map."><i class="fa fa-check"></i><b>6.2.8</b> Bonus #2: Challenge question - map trends in corn yields by county across Iowa. Interpret your map.<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">ESS 580A7 Introduction to Environmental Data Science Project Compilation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">ESS 580A7 Introduction to Environmental Data Science Project Compilation</h1>
+<p class="author"><em>Devin Hunt</em></p>
+<p class="date"><em>2022-03-31</em></p>
+</div>
+<div id="preface" class="section level1 unnumbered hasAnchor">
+<h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Created for the ESS 580A7 course at Colorado State University. This is a compilation of modules applying various packages and skills in R.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="discharge-data-example.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
